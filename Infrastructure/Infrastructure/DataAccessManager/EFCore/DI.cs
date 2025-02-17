@@ -45,17 +45,17 @@ public static class DI
             case "SqlServer":
             default:
                 services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(connectionString)
+                    options.UseNpgsql(connectionString)
                     .LogTo(Log.Information, LogLevel.Information)
                     .EnableSensitiveDataLogging()
                 );
                 services.AddDbContext<CommandContext>(options =>
-                    options.UseSqlServer(connectionString)
+                    options.UseNpgsql(connectionString)
                     .LogTo(Log.Information, LogLevel.Information)
                     .EnableSensitiveDataLogging()
                 );
                 services.AddDbContext<QueryContext>(options =>
-                    options.UseSqlServer(connectionString)
+                    options.UseNpgsql(connectionString)
                     .LogTo(Log.Information, LogLevel.Information)
                     .EnableSensitiveDataLogging()
                 );
