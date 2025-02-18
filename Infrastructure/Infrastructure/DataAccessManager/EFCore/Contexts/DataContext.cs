@@ -55,6 +55,7 @@ public class DataContext : IdentityDbContext<ApplicationUser>, IEntityDbSet
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
 
         modelBuilder.ApplyConfiguration(new ApplicationUserConfiguration());
         modelBuilder.ApplyConfiguration(new TokenConfiguration());
@@ -96,7 +97,37 @@ public class DataContext : IdentityDbContext<ApplicationUser>, IEntityDbSet
         modelBuilder.ApplyConfiguration(new ScrappingConfiguration());
 
     }
+    public override int SaveChanges()
+    {
+        foreach (var entry in ChangeTracker.Entries()
+                     .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
+        {
+            foreach (var property in entry.Properties)
+            {
+                if (property.Metadata.ClrType == typeof(DateTime))
+                {
+                    property.CurrentValue = DateTime.SpecifyKind((DateTime)property.CurrentValue, DateTimeKind.Utc);
+                }
+            }
+        }
+        return base.SaveChanges();
+    }
 
+    public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries()
+                     .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
+        {
+            foreach (var property in entry.Properties)
+            {
+                if (property.Metadata.ClrType == typeof(DateTime))
+                {
+                    property.CurrentValue = DateTime.SpecifyKind((DateTime)property.CurrentValue, DateTimeKind.Utc);
+                }
+            }
+        }
+        return base.SaveChanges();
+    }
 }
 
 
