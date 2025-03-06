@@ -1,6 +1,3 @@
-using WebAPI.Common.Middlewares;
-using WebAPI.DI;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
