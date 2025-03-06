@@ -76,12 +76,7 @@ public static class BackEndConfiguration
         return services;
     }
 
-    public static IEndpointRouteBuilder MapBackEndRoutes(this IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapControllers();
-
-        return endpoints;
-    }
+ 
 
     public static IApplicationBuilder RegisterBackEndBuilder(
         this IApplicationBuilder app,
